@@ -268,7 +268,7 @@ function DriverCard({ d }: { d: DriverDef }) {
               <AreaChart
                 data={d.trend5y}
                 margin={{ top: 4, right: 0, left: 0, bottom: 0 }}
-                onMouseMove={(e: { activePayload?: { payload: Point }[] }) => {
+                onMouseMove={(e: any) => {
                   if (e?.activePayload?.[0]) setHover5y(e.activePayload[0].payload)
                 }}
                 onMouseLeave={() => setHover5y(null)}
@@ -333,7 +333,7 @@ function DriverCard({ d }: { d: DriverDef }) {
             <AreaChart
               data={d.monthly24}
               margin={{ top: 2, right: 0, left: 0, bottom: 0 }}
-              onMouseMove={(e: { activePayload?: { value: number }[] }) => {
+              onMouseMove={(e: any) => {
                 if (e?.activePayload?.[0]) setSparkVal(e.activePayload[0].value)
               }}
               onMouseLeave={() => setSparkVal(null)}

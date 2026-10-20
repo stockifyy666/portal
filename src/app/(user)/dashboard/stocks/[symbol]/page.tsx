@@ -739,7 +739,7 @@ function SectorPeersTab({ s }: { s: typeof UNIVERSE[string] }) {
   )
 }
 
-function CompareSectorTab({ s, onTabChange }: { s: typeof UNIVERSE[string]; onTabChange?: (t: string) => void }) {
+function CompareSectorTab({ s, onTabChange }: { s: typeof UNIVERSE[string]; onTabChange?: (t: Tab) => void }) {
   const peers = Object.values(UNIVERSE).filter(x => x.sector === s.sector)
   const [pickerOpen, setPickerOpen] = useState(false)
   const [customField, setCustomField] = useState('')
