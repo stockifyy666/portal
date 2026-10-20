@@ -1,26 +1,417 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* â”€â”€ Brand â”€â”€ */
+  --brand-gold:     #D97706;
+  --brand-gold-dim: #B45309;
+
+  /* â”€â”€ Surface scale (light â†’ lightest bg = page, darkest = active/hover) â”€â”€ */
+  --navy-950:  #F8FAFC;   /* page background */
+  --navy-900:  #FFFFFF;   /* card / panel background */
+  --navy-800:  #F1F5F9;   /* inset / nested surface */
+  --navy-700:  #E2E8F0;   /* hover surface */
+  --navy-600:  #CBD5E1;   /* active / selected surface */
+
+  /* â”€â”€ Market colours â”€â”€ */
+  --green-gain: #16A34A;
+  --red-loss:   #DC2626;
+
+  /* â”€â”€ Typography â”€â”€ */
+  --text-primary:   #302A21;
+  --text-secondary: #475569;
+  --text-muted:     #94A3B8;
+
+  /* â”€â”€ Borders â”€â”€ */
+  --border-subtle: rgba(0,0,0,0.07);
+  --border-normal: rgba(0,0,0,0.13);
+
+  /* â”€â”€ Surfaces (alias) â”€â”€ */
+  --surface-card:  #FFFFFF;
+  --surface-hover: #F1F5F9;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* â”€â”€ Global consistent border-radius â”€â”€ */
+input, textarea, select {
+  border-radius: 8px !important;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+button {
+  font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--navy-950);
+  color: var(--text-primary);
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
 }
+
+h1, h2, h3, h4 {
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+/* Global card radius */
+:root { --card-radius: 5px; }
+
+/* Card hover lift â€” apply .card-hover to any card */
+.market-card, .card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.market-card:hover, .card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+/* Market cards responsive */
+@media (max-width: 1024px) {
+  .market-cards { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 640px) {
+  .market-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+/* Macro cards responsive */
+@media (max-width: 900px) {
+  .macro-cards { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 600px) {
+  .macro-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 400px) {
+  .macro-cards { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* Portfolio cards responsive */
+@media (max-width: 1100px) {
+  .portfolio-cards { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 640px) {
+  .portfolio-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 400px) {
+  .portfolio-cards { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* Reports featured grid responsive */
+@media (max-width: 1024px) {
+  .reports-featured { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 640px) {
+  .reports-featured { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* News featured grid responsive */
+@media (max-width: 1024px) {
+  .news-featured { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 640px) {
+  .news-featured { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* Tools grid responsive */
+@media (max-width: 768px) {
+  .tools-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* â”€â”€ Navbar responsive â”€â”€ */
+@media (max-width: 900px) {
+  .navbar-desktop { display: none !important; }
+  .navbar-hamburger { display: flex !important; }
+  .navbar-logo-text { display: none; }
+}
+@media (min-width: 901px) {
+  .navbar-mobile-drawer { display: none !important; }
+}
+
+/* â”€â”€ Page padding â”€â”€ */
+@media (max-width: 640px) {
+  main { padding-left: 12px !important; padding-right: 12px !important; }
+}
+
+/* â”€â”€ Market / index cards â”€â”€ */
+@media (max-width: 900px) {
+  .market-cards { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 540px) {
+  .market-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+/* â”€â”€ Stocks page filter bar â”€â”€ */
+.stocks-filters { flex-wrap: wrap; gap: 8px; }
+@media (max-width: 640px) {
+  .stocks-filters > * { width: 100%; }
+}
+
+/* â”€â”€ Portfolio cards â”€â”€ */
+@media (max-width: 900px) {
+  .portfolio-cards { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 540px) {
+  .portfolio-cards { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 360px) {
+  .portfolio-cards { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* â”€â”€ Portfolio card value font scales down on small screens â”€â”€ */
+.portfolio-card-value { font-size: 20px; }
+@media (max-width: 900px) {
+  .portfolio-card-value { font-size: 17px; }
+}
+@media (max-width: 540px) {
+  .portfolio-card-value { font-size: 15px; }
+  .portfolio-summary-card { padding: 10px 12px !important; }
+}
+@media (max-width: 360px) {
+  .portfolio-card-value { font-size: 14px; }
+}
+
+/* â”€â”€ News featured card â€” tiny screens â”€â”€ */
+@media (max-width: 380px) {
+  .news-featured-card { padding: 12px 14px !important; gap: 8px !important; }
+  .news-featured-card h3 { font-size: 13px !important; }
+  .news-featured-card p  { font-size: 11.5px !important; }
+}
+
+/* â”€â”€ News search wrapper â”€â”€ */
+.news-search-wrap {
+  position: relative;
+  width: 240px;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .news-search-wrap { width: 100%; flex-shrink: unset; }
+}
+
+/* â”€â”€ News / Reports featured grid â”€â”€ */
+@media (max-width: 900px) {
+  .news-featured { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+  .reports-featured { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 560px) {
+  .reports-featured { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* â”€â”€ Tools grid â”€â”€ */
+@media (max-width: 640px) {
+  .tools-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+/* Tool calculator 2-col inputs collapse on narrow screens */
+@media (max-width: 400px) {
+  .tools-grid [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* â”€â”€ Generic table scroll wrapper â”€â”€ */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* â”€â”€ h1 font size on small screens â”€â”€ */
+@media (max-width: 480px) {
+  h1 { font-size: 18px !important; }
+}
+
+/* â”€â”€ Tab bars â€” scroll on mobile â”€â”€ */
+@media (max-width: 640px) {
+  .tab-bar { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .tab-bar > div { flex-shrink: 0; }
+}
+
+/* â”€â”€ Filter/action rows wrap on mobile â”€â”€ */
+@media (max-width: 640px) {
+  .filter-row { flex-direction: column !important; align-items: stretch !important; }
+  .filter-row input, .filter-row select { width: 100% !important; }
+}
+
+/* â”€â”€ Modals full-width on mobile â”€â”€ */
+@media (max-width: 480px) {
+  .modal-box {
+    width: calc(100vw - 32px) !important;
+    max-width: 100% !important;
+  }
+}
+
+/* â”€â”€ Reports tabs: pill on desktop, dropdown on mobile â”€â”€ */
+@media (max-width: 540px) {
+  .reports-tab-pill     { display: none !important; }
+  .reports-tab-dropdown { display: block !important; }
+}
+
+/* â”€â”€ Reports search wrapper â”€â”€ */
+.reports-search-wrap {
+  position: relative;
+  width: 260px;
+  flex-shrink: 0;
+}
+@media (max-width: 700px) {
+  .reports-search-wrap { width: 100%; flex-shrink: unset; }
+}
+
+
+/* ── Indices page ── */
+@media (max-width: 860px) {
+  .indices-chart-row { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 700px) {
+  .indices-bottom-row { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 500px) {
+  .market-cards { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
+
+/* ── Stock detail stat grid ── */
+@media (max-width: 900px) {
+  .stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 560px) {
+  .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+/* ── Stock detail top metrics (overview) ── */
+@media (max-width: 1100px) {
+  .top-metrics-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 600px) {
+  .top-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+
+/* ── Overview stats bar ── */
+@media (max-width: 900px) {
+  .overview-stats-grid { grid-template-columns: repeat(4, minmax(0,1fr)) !important; }
+}
+@media (max-width: 560px) {
+  .overview-stats-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
+
+/* ── Analysis cards (intrinsic / MoS / score) ── */
+@media (max-width: 860px) {
+  .analysis-cards-grid { grid-template-columns: repeat(1, minmax(0,1fr)) !important; }
+}
+
+/* ── About grid (corporate info + board) ── */
+@media (max-width: 700px) {
+  .about-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Strengths & Concerns grid ── */
+@media (max-width: 600px) {
+  .strengths-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Financials charts grid ── */
+@media (max-width: 700px) {
+  .fin-charts-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Stock detail tab bar — hide scrollbar ── */
+.stock-tab-bar::-webkit-scrollbar { display: none; }
+
+/* ── Fundamentals top grid ── */
+@media (max-width: 860px) {
+  .fund-top-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Fundamentals metrics grid ── */
+@media (max-width: 1024px) {
+  .fund-metrics-grid { grid-template-columns: repeat(3, 1fr) !important; }
+  .fund-metrics-grid > div:nth-child(3) { border-right: none !important; }
+}
+@media (max-width: 640px) {
+  .fund-metrics-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .fund-metrics-grid > div:nth-child(2n) { border-right: none !important; }
+}
+
+/* ── Fundamentals grade cards grid ── */
+@media (max-width: 860px) {
+  .fund-grade-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 480px) {
+  .fund-grade-grid { grid-template-columns: repeat(1, 1fr) !important; }
+}
+
+/* ── Fundamentals sections 2-col grid ── */
+@media (max-width: 900px) {
+  .fund-sections-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ── Fundamentals metric cards ── */
+@media (max-width: 1100px) {
+  .fund-metric-cards { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 480px) {
+  .fund-metric-cards { grid-template-columns: repeat(1, 1fr) !important; }
+}
+
+/* ── Compare sector summary cards ── */
+@media (max-width: 860px) {
+  .compare-summary-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .compare-summary-grid > div:nth-child(2) { border-right: none !important; }
+  .compare-summary-grid > div:nth-child(1),
+  .compare-summary-grid > div:nth-child(2) { border-bottom: 1px solid var(--border-subtle); }
+}
+@media (max-width: 500px) {
+  .compare-summary-grid { grid-template-columns: repeat(1, 1fr) !important; }
+  .compare-summary-grid > div { border-right: none !important; border-bottom: 1px solid var(--border-subtle) !important; }
+}
+
+/* ── Macro drivers grid ── */
+@media (max-width: 900px) {
+  .macro-drivers-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 560px) {
+  .macro-drivers-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* â”€â”€ MPC Calendar grid â”€â”€ */
+@media (max-width: 700px) {
+  .mpc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+}
+@media (max-width: 400px) {
+  .mpc-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* â”€â”€ Reserves summary grid â”€â”€ */
+@media (max-width: 600px) {
+  .reserves-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+}
+
+/* â”€â”€ Macro section card padding â”€â”€ */
+@media (max-width: 480px) {
+  .macro-section-card { padding: 16px !important; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--navy-800); }
+::-webkit-scrollbar-thumb { background: var(--navy-600); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-gold); }
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid var(--brand-gold);
+  outline-offset: 2px;
+}
+
+/* Utility classes */
+.gain  { color: var(--green-gain); }
+.loss  { color: var(--red-loss); }
+.muted { color: var(--text-muted); }
+
+.tr-hover { transition: background 0.15s; }
+.tr-hover:hover { background: var(--navy-800); }
+
